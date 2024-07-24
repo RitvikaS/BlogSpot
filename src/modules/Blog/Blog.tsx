@@ -8,7 +8,8 @@ export function Blog() {
   const axiosInstance = axios.create();
   MockAPI(axiosInstance);
 
-  const { title } = useParams();
+  const { title } = useParams<string>();
+  const [error, setError] = useState("");
   const [blog, setBlog] = useState<any>({});
   const [comment, setComment] = useState({
     comment: "",
@@ -30,21 +31,52 @@ export function Blog() {
   function setEmail(e: any) {
     let email = e.target.value;
     setComment({ ...comment, email });
+    if (!email) {
+      setError("Email is required");
+    } else if (!/^[A-Z0-9._%+-]+@[A-Z0-9.-]+\.[A-Z]{2,}$/i.test(email)) {
+      setError("Please Enter valid email");
+    } else {
+      setError("");
+    }
   }
+
+  const getBlogDetails = (title: string) => {
+    axiosInstance
+      .get(`/getBlog/${encodeURIComponent(title)}`)
+      .then((res) => {
+        console.log(res);
+        setBlog(res.data.blog[0]);
+        setBlog((prev: any) => ({ ...prev, prev: res.data.blog[0] }));
+      })
+      .catch((err) => console.log(err));
+  };
+
   useEffect(() => {
     if (title) {
-      axiosInstance
-        .get(`/getBlog/${encodeURIComponent(title)}`)
-        .then((res) => {
-          setBlog(res.data.blog[0]);
-          setBlog((prev: any) => ({ ...prev, prev: res.data.blog[0] }));
-        })
-        .catch((err) => console.log(err));
+      getBlogDetails(title);
     }
   }, []);
 
   function postComment() {
-    console.log("comment - ", comment);
+    if (!error) {
+      let payload = {
+        title: title,
+        comment: comment,
+      };
+      axiosInstance
+        .post("/postComment", payload)
+        .then(() => {
+          setComment({
+            comment: "",
+            name: "",
+            email: "",
+          });
+          getBlogDetails(payload.title ?? "");
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   }
 
   return (
@@ -59,7 +91,7 @@ export function Blog() {
         <p>{blog.content}</p>
       </div>
       <div className="border-t border-gray m-16">
-        <div className="text-7xl mt-8">
+        <div className="text-5xl mt-8">
           <span className="text-rose-600">{blog?.commentSection?.length}</span>{" "}
           COMMENTS
         </div>
@@ -95,6 +127,7 @@ export function Blog() {
                 className="block p-2.5 w-full text-sm text-gray-900 bg-gray-50 rounded-lg border border-gray-300 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
                 placeholder="Please enter your Email Address"
               ></input>
+              {error && <p className="error-message">{error}</p>}
             </div>
 
             <div className="mt-4 text-right">

@@ -45,13 +45,22 @@ export const postBlog = async (payload: any) => {
   return [201, { message: "Blog Posted...", status: 201 }];
 };
 export const postComment = async (payload: any) => {
-  console.log("Comment - ", payload);
-  
-  let newComment = {
-    name: payload.name,
-    email: payload.email,
+  let newComment: any = {
+    name: payload.comment.name,
+    email: payload.comment.email,
     date: new Date(),
-    comment: payload.comment
-  }
+    comment: payload.comment.comment,
+  };
 
+  const index = BlogData.findIndex((blog) => blog.title === payload.title);
+  console.log(index, BlogData[index].commentSection);
+
+  if (index !== -1) {
+    BlogData[index].commentSection.push(newComment);
+    console.log(BlogData);
+
+    return [200, { message: "User Updated", status: 200 }];
+  } else {
+    return [400, { message: "This email does not exist" }];
+  }
 };
