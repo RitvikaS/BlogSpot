@@ -77,7 +77,7 @@ function AddBlog() {
           });
           setTimeout(()=>{
             navigate(`/blog/${encodeURIComponent(newBlog.title)}`)
-          },3000)
+          },1500)
         })
         .catch((Error) => {
           console.log(Error);
