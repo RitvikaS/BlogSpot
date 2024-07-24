@@ -3,12 +3,13 @@ import { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
 import axios from "axios";
 import { MockAPI } from "../../MOCK API/mockProvider";
+import { Blog } from "../../model";
 
 export function Home() {
   const axiosInstance = axios.create();
   MockAPI(axiosInstance);
 
-  const [posts, setPosts] = useState<any[]>([]);
+  const [posts, setPosts] = useState<Blog[]>([]);
 
   useEffect(() => {
     axiosInstance

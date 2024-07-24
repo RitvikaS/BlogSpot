@@ -3,6 +3,7 @@ import { useEffect, useState } from "react";
 import { MockAPI } from "../../MOCK API/mockProvider";
 import axios from "axios";
 import { useParams } from "react-router-dom";
+import { Comment } from "../../model";
 
 export function Blog() {
   const axiosInstance = axios.create();
@@ -142,7 +143,7 @@ export function Blog() {
           </div>
           <div className="mt-2">
             {Array.isArray(blog.commentSection) &&
-              blog.commentSection.map((comment: any) => (
+              blog.commentSection.map((comment: Comment) => (
                 <div key={comment.email} className="mt-8 comment">
                   <div className="mt-8 comment">
                     <p className="text-3xl font-normal">
