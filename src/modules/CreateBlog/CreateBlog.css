@@ -1,0 +1,16 @@
+.title {
+  font-size: 3rem;
+  font-weight: 600;
+  text-align: center;
+  margin: 4rem;
+}
+.blogImage {
+  width: 40%;
+  margin: auto;
+}
+.description {
+  margin: 4rem 16rem;
+}
+.createBtn {
+  text-align: center;
+}
