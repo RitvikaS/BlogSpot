@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import axios from "axios";
 import { MockAPI } from "../../MOCK API/mockProvider";
 import { Blog } from "../../model";
+import { Menu, MenuButton, MenuItems } from "@headlessui/react";
+import { MenuItem } from "@mui/material";
 
 export function Home() {
   const axiosInstance = axios.create();
@@ -21,19 +23,87 @@ export function Home() {
       .catch((err: any) => {
         console.log(err);
       });
+
+    axios
+      .get("http://localhost:3000/api/users/users")
+      .then((response) => console.log(response.data))
+      .catch((error) => console.error("Error:", error));
   }, []);
 
   return (
     <div>
       <div className="bg-white py-24 sm:py-32">
         <div className="mx-auto max-w-7xl px-6 lg:px-8">
-          <div className="mx-auto max-w-2xl lg:mx-0">
-            <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
-              Welcome to Blog-Spot
-            </h2>
-            <p className="mt-2 text-lg leading-8 text-gray-600">
-              Get your cup of coffee and Read, Write, Post, Enjoy.
-            </p>
+          <div className="flex justify-between">
+            <div className="mx-auto max-w-2xl lg:mx-0">
+              <h2 className="text-3xl font-bold tracking-tight text-gray-900 sm:text-4xl">
+                Welcome to Blog-Spot
+              </h2>
+              <p className="mt-2 text-lg leading-8 text-gray-600">
+                Get your cup of coffee and Read, Write, Post, Enjoy.
+              </p>
+            </div>
+            <div className="mx-auto max-w-2xl lg:mx-0">
+              <div>
+                <Menu as="div" className="relative ml-3">
+                  <div>
+                    <MenuButton
+                      className="w-48 text-gray-800 font-medium rounded-lg text-sm px-5 py-2.5 me-2 mb-2 border-2"
+                      style={{
+                        border: "2px solid #e5e7eb",
+                      }}
+                    >
+                      Choose from Category
+                    </MenuButton>
+                  </div>
+                  <MenuItems
+                    transition
+                    className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 transition focus:outline-none data-[closed]:scale-95 data-[closed]:transform data-[closed]:opacity-0 data-[enter]:duration-100 data-[leave]:duration-75 data-[enter]:ease-out data-[leave]:ease-in"
+                  >
+                    <MenuItem>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                      >
+                        All
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                      >
+                        Health
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                      >
+                        Lifestyle
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                      >
+                        Marketing
+                      </a>
+                    </MenuItem>
+                    <MenuItem>
+                      <a
+                        href="#"
+                        className="block px-4 py-2 text-sm text-gray-700 data-[focus]:bg-gray-100"
+                      >
+                        Fashion
+                      </a>
+                    </MenuItem>
+                  </MenuItems>
+                </Menu>
+              </div>
+            </div>
           </div>
           <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {posts.map((post) => (

@@ -44,6 +44,13 @@ export const postBlog = async (payload: any) => {
 
   return [201, { message: "Blog Posted...", status: 201 }];
 };
+export const getBlogsByCategory = async (category: string) => {
+  const filteredBlogs = BlogData.filter(
+    (blog) => blog.category.title === category
+  );
+
+  return [200, filteredBlogs];
+};
 export const postComment = async (payload: any) => {
   let newComment: any = {
     name: payload.comment.name,

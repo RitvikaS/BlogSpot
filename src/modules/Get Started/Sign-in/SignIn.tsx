@@ -3,6 +3,8 @@ import { Link, useNavigate } from "react-router-dom";
 import "./SignIn.css";
 import axios from "axios";
 import { MockAPI } from "../../../MOCK API/mockProvider";
+import axiosApi from '../../../axios'
+
 export function SignIn({ closeModal }: any) {
   const axiosInstance = axios.create();
   MockAPI(axiosInstance);
@@ -183,6 +185,17 @@ export function SignIn({ closeModal }: any) {
       setGoToSignUp(false);
     }
   }
+
+  const handleRegister = async () => {
+    const usernamee = signUpDetail.email;
+    const passwordd = signUpDetail.password;
+    try {
+      const response = await axiosApi.post('/users/register', { usernamee, passwordd });
+      console.log(response, 'Registration successful');
+    } catch (error) {
+      console.log('Registration failed');
+    }
+  };
 
   return (
     <div style={{ background: "white" }}>

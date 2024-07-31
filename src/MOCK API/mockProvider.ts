@@ -3,6 +3,7 @@ import {
   getAllBlogs,
   postBlog,
   postComment,
+  getBlogsByCategory,
 } from "./controller/BlogApis";
 import { AxiosInstance } from "axios";
 import MockAdapter from "axios-mock-adapter";
@@ -23,6 +24,11 @@ export const MockAPI = (axiosInstance: AxiosInstance) => {
   mock.onPost("/postBlog").reply((config) => {
     const payload = JSON.parse(config.data);
     return postBlog(payload);
+  });
+  mock.onGet(/\/getBlogsByCategory\/.+/).reply((config) => {
+    const category = decodeURIComponent(config.url?.split("/").pop() || "");
+    console.log(config, category);
+    return getBlogsByCategory(category);
   });
   mock.onPost("/postComment").reply((config): any => {
     const payload = JSON.parse(config.data);
