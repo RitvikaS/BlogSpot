@@ -3,7 +3,7 @@ const router = express.Router();
 const userController = require("../controllers/userController");
 const authMiddleware = require("../middlewares/authMiddleware");
 
-console.log("routes file");
+console.log("user routes file");
 router.post("/register", userController.register);
 router.post("/login", userController.login);
 router.get("/users", userController.users);

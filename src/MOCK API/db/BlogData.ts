@@ -86,7 +86,7 @@ Having said that, keep in mind that some of these are likely to drive better res
       "Illo sint voluptas. Error voluptates culpa eligendi. Hic vel totam vitae illo. Non aliquid explicabo necessitatibus unde. Sed exercitationem placeat consectetur nulla deserunt vel. Iusto corrupti dicta.",
     date: "Mar 16, 2020",
     dateTime: "2020-03-16",
-    category: { title: "Health", href: "#" },
+    category: "Health",
     image: img1,
     author: {
       name: "Michael Foster",

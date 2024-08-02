@@ -24,9 +24,14 @@ export function Home() {
         console.log(err);
       });
 
+    // axios
+    //   .get("http://localhost:3000/api/users/users")
+    //   .then((response) => console.log(response.data))
+    //   .catch((error) => console.error("Error:", error));
+
     axios
-      .get("http://localhost:3000/api/users/users")
-      .then((response) => console.log(response.data))
+      .get("http://localhost:3000/api/blog/getAllBlogs")
+      .then((response) => console.log("blogs -", response.data))
       .catch((error) => console.error("Error:", error));
   }, []);
 
