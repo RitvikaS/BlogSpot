@@ -1,11 +1,23 @@
 // models/Blog.js
 const mongoose = require("mongoose");
 
-const CommentSchema = new mongoose.Schema({
-  name: String,
-  email: String,
-  date: String,
-  comment: String,
+const commentSchema = new mongoose.Schema({
+  name: {
+    type: String,
+    required: true,
+  },
+  email: {
+    type: String,
+    required: true,
+  },
+  date: {
+    type: String,
+    required: true,
+  },
+  comment: {
+    type: String,
+    required: true,
+  },
 });
 
 const BlogSchema = new mongoose.Schema({
@@ -28,7 +40,7 @@ const BlogSchema = new mongoose.Schema({
     imageUrl: String,
   },
   content: String,
-  commentSection: [CommentSchema],
+  commentSection: [commentSchema],
 });
 
 const Blog = mongoose.model("BlogCollections", BlogSchema);

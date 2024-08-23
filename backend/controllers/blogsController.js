@@ -224,6 +224,36 @@ const getBlogByID = async (req, res) => {
   }
 };
 
+// function to add comment
+const addComment = async (req, res) => {
+  console.log("req ->", req.body, req.body.id);
+  try {
+    const id = req.body.id; // Blog ID from the URL
+    const { name, email, date, comment } = req.body.comment; // Comment data from the request body
+
+    console.log(id, name);
+    // Find the blog post by ID
+    const blog = await Blog.findById(id);
+
+    if (!blog) {
+      return res.status(404).json({ message: "Blog not found" });
+    }
+
+    // Add the comment to the blog's commentSection array
+    blog.commentSection.push({ name, email, date, comment });
+
+    // Save the updated blog
+    await blog.save();
+
+    // Return the updated blog
+    res.json(blog);
+  } catch (error) {
+    res.status(500).send(error.message);
+  }
+};
+
 module.exports = {
-  getAllBlogs,getBlogByID
+  getAllBlogs,
+  getBlogByID,
+  addComment,
 };

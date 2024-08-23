@@ -13,9 +13,10 @@ export function Blog() {
   const [error, setError] = useState("");
   const [blog, setBlog] = useState<any>({});
   const [comment, setComment] = useState({
-    comment: "",
     name: "",
     email: "",
+    date: "",
+    comment: "",
   });
   function addComment(e: any) {
     let commentText = e.target.value;
@@ -40,10 +41,12 @@ export function Blog() {
       setError("");
     }
   }
+  function setDate() {
+    let date = new Date().toLocaleString();
+    setComment({ ...comment, date });
+  }
 
   const getBlogDetails = (blogId: any) => {
-    console.log(blogId,"is blogid");
-    
     axios
       .get(`http://localhost:5000/blogs/getBlogById/${blogId}`)
       .then((res) => {
@@ -55,8 +58,6 @@ export function Blog() {
   };
 
   useEffect(() => {
-    console.log("blogId ---- ", blogId);
-    
     if (blogId) {
       getBlogDetails(blogId);
     }
@@ -65,22 +66,39 @@ export function Blog() {
   function postComment() {
     if (!error) {
       let payload = {
-        title: blogId,
+        id: blogId,
         comment: comment,
       };
-      axiosInstance
-        .post("/postComment", payload)
-        .then(() => {
+      setDate();
+      axios
+        .post(`http://localhost:5000/blogs/${blogId}/comments`, payload)
+        .then((res) => {
+          console.log(res);
           setComment({
-            comment: "",
             name: "",
             email: "",
+            date: "",
+            comment: "",
           });
-          getBlogDetails(payload.title ?? "");
+          getBlogDetails(blogId);
         })
-        .catch((error) => {
-          console.log(error);
+        .catch((err) => {
+          console.log(err);
         });
+
+      //   axiosInstance
+      //     .post("/postComment", payload)
+      //     .then(() => {
+      //       setComment({
+      //         comment: "",
+      //         name: "",
+      //         email: "",
+      //       });
+      //       getBlogDetails(payload.title ?? "");
+      //     })
+      //     .catch((error) => {
+      //       console.log(error);
+      //     });
     }
   }
 
