@@ -59,9 +59,56 @@
 // app.listen(port, () => {
 //   console.log(`Server running on http://localhost:${port}`);
 // });
-const app = require("./app");
-const port = process.env.PORT || 3000;
 
+/**
+ New Method 
+
+
+ const app = require("./app");
+ const port = process.env.PORT || 3000;
+ 
+ app.listen(port, () => {
+   console.log(`Server is running on port ${port}`);
+ });
+
+ */
+
+/**
+  * 
+  * 
+  * 
+  * 
+  MONGO DB METHOD
+  * 
+  * 
+  * 
+  */
+
+const express = require("express");
+const connectDB = require("./config/db.config");
+const blogRoutes = require("./routes/blogsRoutes");
+const cors = require("cors");
+
+const app = express();
+const port = 5000;
+
+// Connect to the database
+connectDB();
+
+// Enable CORS with options
+app.use(
+  cors({
+    origin: "http://localhost:5173", // Adjust this to your frontend URL
+  })
+);
+
+// Middleware
+app.use(express.json());
+
+// Use routes
+app.use("/blogs", blogRoutes);
+
+// Start the server
 app.listen(port, () => {
-  console.log(`Server is running on port ${port}`);
+  console.log(`Server running at http://localhost:${port}`);
 });

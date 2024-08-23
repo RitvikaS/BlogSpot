@@ -13,26 +13,38 @@ export function Home() {
 
   const [posts, setPosts] = useState<Blog[]>([]);
 
+  // useEffect(() => {
+  //   axiosInstance
+  //     .get("/getAllBlogs")
+  //     .then((res: any) => {
+  //       setPosts(res.data.BlogData);
+  //       console.log("All blogs = ", posts, res);
+  //     })
+  //     .catch((err: any) => {
+  //       console.log(err);
+  //     })
+
+  //   axios
+  //     .get("http://localhost:3000/api/blog/getAllBlogs")
+  //     .then((response) => console.log("blogs -", response.data))
+  //     .catch((error) => console.error("Error:", error));
+  // }, []);
+
+
   useEffect(() => {
-    axiosInstance
-      .get("/getAllBlogs")
-      .then((res: any) => {
-        setPosts(res.data.BlogData);
-        console.log("All blogs = ", posts, res);
-      })
-      .catch((err: any) => {
-        console.log(err);
-      });
+    const fetchBlogs = async () => {
+      try {
+        const response = await axios.get(
+          "http://localhost:5000/blogs/getAllBlogs"
+        );
+        setPosts(response.data);
+        console.log(response.data);
+      } catch (error) {
+        console.error("Error fetching blogs:", error);
+      }
+    };
 
-    // axios
-    //   .get("http://localhost:3000/api/users/users")
-    //   .then((response) => console.log(response.data))
-    //   .catch((error) => console.error("Error:", error));
-
-    axios
-      .get("http://localhost:3000/api/blog/getAllBlogs")
-      .then((response) => console.log("blogs -", response.data))
-      .catch((error) => console.error("Error:", error));
+    fetchBlogs();
   }, []);
 
   return (
@@ -113,7 +125,7 @@ export function Home() {
           <div className="mx-auto mt-10 grid max-w-2xl grid-cols-1 gap-x-8 gap-y-16 border-t border-gray-200 pt-10 sm:mt-16 sm:pt-16 lg:mx-0 lg:max-w-none lg:grid-cols-3">
             {posts.map((post) => (
               <article
-                key={post.id}
+                key={post._id}
                 className="flex max-w-xl flex-col items-start justify-between"
               >
                 <div>
@@ -136,7 +148,7 @@ export function Home() {
                 </div>
                 <div className="group relative">
                   <h3 className="mt-3 text-lg font-semibold leading-6 text-gray-900 group-hover:text-gray-600">
-                    <Link to={`/blog/${encodeURIComponent(post.title)}`}>
+                    <Link to={`/blog/${post._id}`}>
                       <span className="absolute inset-0" />
                       {post.title}
                     </Link>

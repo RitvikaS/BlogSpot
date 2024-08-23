@@ -17,6 +17,8 @@
     "@mui/material": "^5.16.4",
     "axios-mock-adapter": "^1.22.0",
     "flowbite": "^2.4.1",
+    "mongodb": "^6.8.0",
+    "mongoose": "^8.5.3",
     "notistack": "^3.0.1",
     "postcss": "^8.4.39",
     "react": "^18.3.1",

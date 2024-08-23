@@ -18,7 +18,7 @@ export interface Comment {
 }
 
 export interface Blog {
-  id: number;
+  _id: number;
   title: string;
   heading: string;
   route: string;

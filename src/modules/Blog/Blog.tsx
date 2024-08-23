@@ -9,7 +9,7 @@ export function Blog() {
   const axiosInstance = axios.create();
   MockAPI(axiosInstance);
 
-  const { title } = useParams<string>();
+  const { blogId } = useParams();
   const [error, setError] = useState("");
   const [blog, setBlog] = useState<any>({});
   const [comment, setComment] = useState({
@@ -41,27 +41,31 @@ export function Blog() {
     }
   }
 
-  const getBlogDetails = (title: string) => {
-    axiosInstance
-      .get(`/getBlog/${encodeURIComponent(title)}`)
+  const getBlogDetails = (blogId: any) => {
+    console.log(blogId,"is blogid");
+    
+    axios
+      .get(`http://localhost:5000/blogs/getBlogById/${blogId}`)
       .then((res) => {
-        console.log(res);
-        setBlog(res.data.blog[0]);
-        setBlog((prev: any) => ({ ...prev, prev: res.data.blog[0] }));
+        console.log(res.data);
+        setBlog(res.data);
+        setBlog((prev: any) => ({ ...prev, prev: res.data }));
       })
       .catch((err) => console.log(err));
   };
 
   useEffect(() => {
-    if (title) {
-      getBlogDetails(title);
+    console.log("blogId ---- ", blogId);
+    
+    if (blogId) {
+      getBlogDetails(blogId);
     }
-  }, []);
+  }, [blogId]);
 
   function postComment() {
     if (!error) {
       let payload = {
-        title: title,
+        title: blogId,
         comment: comment,
       };
       axiosInstance
